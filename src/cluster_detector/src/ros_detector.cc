@@ -11,7 +11,6 @@ cloud_toolbox::ROSDetector::ROSDetector(ros::NodeHandle &nh){
     std::string vis_cluster_cloud_topic;
     std::string marker_array_topic;
     std::string boundary_marker_topic;
-    std::string boundary_dogm_topic;
 
 
     nh.getParam("input_cloud_topic", input_cloud_topic);
@@ -23,7 +22,6 @@ cloud_toolbox::ROSDetector::ROSDetector(ros::NodeHandle &nh){
     nh.getParam("vis_cluster_cloud_topic", vis_cluster_cloud_topic);
     nh.getParam("marker_array_topic", marker_array_topic);
     nh.getParam("boundary_marker_topic", boundary_marker_topic);
-    nh.getParam("boundary_dogm_topic", boundary_dogm_topic);
 
     // get parameters
     // preprocessing
@@ -97,7 +95,6 @@ cloud_toolbox::ROSDetector::ROSDetector(ros::NodeHandle &nh){
     vis_cluster_cloud_publisher = nh.advertise<sensor_msgs::PointCloud2>(vis_cluster_cloud_topic, 10);
     marker_array_publisher = nh.advertise<visualization_msgs::MarkerArray>(marker_array_topic, 10);
     boundary_marker_publisher = nh.advertise<visualization_msgs::Marker>(boundary_marker_topic, 10);
-    boundary_dogm_publisher = nh.advertise<dogm_msgs::DOGMBoundary>(boundary_dogm_topic, 10);
 
 
     cloud_subscriber = nh.subscribe(input_cloud_topic, 10, &cloud_toolbox::ROSDetector::execute, this);
@@ -358,19 +355,7 @@ void cloud_toolbox::ROSDetector::vis_boundary(std::vector<float>& polar_boundary
     std::cout << "num marker points:  " << boundary_marker.points.size() << std::endl;
 }
 
-void cloud_toolbox::ROSDetector::vis2dogmboundary(visualization_msgs::Marker& boundary_marker, dogm_msgs::DOGMBoundary& boundary_dogm){
-    boundary_dogm.header = common_header;
 
-    for (int i = 0; i < boundary_marker.points.size(); i ++){
-        dogm_msgs::DOGMBoundaryPoint boundary_point;
-        boundary_point.x_glob = boundary_marker.points[i].x;
-        boundary_point.y_glob = boundary_marker.points[i].y;
-        boundary_dogm.boundary.push_back(boundary_point);
-    }
-    
-    
-
-}
 
 void cloud_toolbox::ROSDetector::cal_occ_grid(pcl::PointCloud<pcl::PointXYZI>::Ptr scene_cloud, nav_msgs::OccupancyGrid& occ_grid){
     int grid_cell_width = 500;
@@ -504,9 +489,6 @@ void cloud_toolbox::ROSDetector::publish_ros(){
     scene_cloud_publisher.publish(scene_cloud_msg);
 
 
-
-
-
     // sensor_msgs::PointCloud2 vis_cluster_cloud_msg;
     // pcl::toROSMsg(*vis_cluster_cloud, vis_cluster_cloud_msg);
     // vis_cluster_cloud_msg.header = common_header;
@@ -514,8 +496,6 @@ void cloud_toolbox::ROSDetector::publish_ros(){
 
     // marker_array_publisher.publish(marker_array);
     boundary_marker_publisher.publish(boundary_marker);
-
-    boundary_dogm_publisher.publish(boundary_dogm);
 
 
 
@@ -534,7 +514,6 @@ void cloud_toolbox::ROSDetector::execute(const sensor_msgs::PointCloud2ConstPtr 
     occ_grid.data.clear();
     vis_cluster_cloud->clear();
     boundary_marker.points.clear();
-    boundary_dogm.boundary.clear();
 
 
 
@@ -546,8 +525,6 @@ void cloud_toolbox::ROSDetector::execute(const sensor_msgs::PointCloud2ConstPtr 
     cloud_preprocess(input_cloud, filter_cloud);
     ground_filter(filter_cloud, ground_cloud, scene_cloud);
     cal_polar_boundary(scene_cloud, boundary_marker);
-    vis2dogmboundary(boundary_marker, boundary_dogm);
-
     // cal_occ_grid(scene_cloud, occ_grid);
     // occgrid2boundary(occ_grid, boundary_marker);
     // cloud_cluster(scene_cloud, cluster_cloud);

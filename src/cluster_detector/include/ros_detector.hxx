@@ -15,8 +15,6 @@
 #include "opencv2/core.hpp"
 
 
-
-#include "dogm_msgs/DOGMBoundary.h"
 namespace cloud_toolbox{
 
 class ROSDetector: public ClusterDetector{
@@ -37,10 +35,6 @@ public:
     void cal_polar_boundary(pcl::PointCloud<pcl::PointXYZI>::Ptr scene_cloud, visualization_msgs::Marker& boundary_marker);
     void vis_boundary(std::vector<float>& polar_boundary, std::vector<int>& to_del_id, visualization_msgs::Marker& boundary_marker);
     void occgrid2boundary(nav_msgs::OccupancyGrid& occ_grid, visualization_msgs::Marker& boundary_marker);
-
-
-
-    void vis2dogmboundary(visualization_msgs::Marker& boundary_marker, dogm_msgs::DOGMBoundary& boundary_dogm);
     void publish_ros();
 
 
@@ -55,7 +49,6 @@ public:
     ros::Publisher vis_cluster_cloud_publisher;
     ros::Publisher marker_array_publisher;
     ros::Publisher boundary_marker_publisher;
-    ros::Publisher boundary_dogm_publisher;
 
     std_msgs::Header common_header;
 
@@ -67,7 +60,6 @@ public:
     std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cluster_cloud;
     std::vector<box_info> bboxes;
     autoware_msgs::DetectedObjectArray obj_array;
-    dogm_msgs::DOGMBoundary boundary_dogm;
     nav_msgs::OccupancyGrid occ_grid;
 
     // for visualization and debug

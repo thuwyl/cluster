@@ -15,11 +15,6 @@
 # v1.1 20211201
 + \+ delete some unnecessory boundary points   361 points -> near 240 points
 
-# v1.1.1 20220104
-+ \+ add the visualization of scene points after ground extraction
-
-# v1.1.2 20220105
-+ \+ publish dogm boundary message
 
 # Dependencies:
 + Ubuntu 16.04 or 18.04

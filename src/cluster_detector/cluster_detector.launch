@@ -1,5 +1,5 @@
 <launch>
-    <arg name="input_cloud_topic" default="/minibus/points_concatenated" />
+    <arg name="input_cloud_topic" default="/points_raw" />
     <arg name="filtered_cloud_topic" default="/filter_points" />
     <arg name="ground_cloud_topic" default="/ground_points" />
     <arg name="scene_cloud_topic" default="/scene_points" />
@@ -8,8 +8,6 @@
     <arg name="obj_array_topic" default="/zzz/detection/lidar_detector/objects"/>
     <arg name="marker_array_topic" default="/box_marker"/>
     <arg name="boundary_marker_topic" default="/boundary_marker"/>
-    <arg name="boundary_dogm_topic" default="/boundary_dogm"/>
-    
     
     <!-- preprocessing -->
         <!-- cloud_range -->
@@ -32,7 +30,7 @@
 
     <!-- ground filter -->
     <arg name = "num_ground_seeds" default = "15"/>
-    <arg name = "lidar_height" default ="0.75" />
+    <arg name = "lidar_height" default ="1.882" />
     <arg name = "th_ground_seeds" default = "1.2"/>
     <arg name = "iter_ground_plane" default = "3"/>
     <arg name = "th_ground_plane" default = "0.2"/>
@@ -75,8 +73,6 @@
         <param name="obj_array_topic" value="$(arg obj_array_topic)"/>
         <param name="marker_array_topic" value="$(arg marker_array_topic)"/>
         <param name="boundary_marker_topic" value="$(arg boundary_marker_topic)"/>
-        <param name="boundary_dogm_topic" value="$(arg boundary_dogm_topic)"/>
-        
 
         
         
