@@ -33,6 +33,13 @@ cloud_toolbox::ROSDetector::ROSDetector(ros::NodeHandle &nh){
     nh.getParam("cloud_range_y_max", cloud_range_[4]);
     nh.getParam("cloud_range_z_max", cloud_range_[5]);
 
+    nh.getParam("ego_size_x_min", ego_size_[0]);
+    nh.getParam("ego_size_y_min", ego_size_[1]);
+    nh.getParam("ego_size_z_min", ego_size_[2]);
+    nh.getParam("ego_size_x_max", ego_size_[3]);
+    nh.getParam("ego_size_y_max", ego_size_[4]);
+    nh.getParam("ego_size_z_max", ego_size_[5]);
+
         // voxel filter leaf size
     nh.getParam("voxel_filter_leaf_size_x", voxel_filter_leaf_size_[0]);
     nh.getParam("voxel_filter_leaf_size_y", voxel_filter_leaf_size_[1]);
